@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 from functools import partial
 import concurrent.futures
+import json
 
 llm = ChatOpenAI(model="gpt-4o")
 
@@ -17,8 +18,8 @@ def generate_unit_test(prompt_tag, function_code):
     chain = prompt | llm
     response = chain.invoke({})
     return {
-        "prompt": prompt.messages[1].content,
-        "completion": response['choices'][0]['message']['content'].strip()
+        "prompt": f"Generate a unit test for this function: \n```python\n{function_code}\n```",
+        "completion": response
     }
 
 functions_to_test = [
@@ -35,5 +36,4 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     synthetic_data = list(executor.map(generate_synthetic_data, functions_to_test))
 
 # Output the synthetic data
-import json
 print(json.dumps(synthetic_data, indent=4))

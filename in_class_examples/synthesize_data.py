@@ -6,7 +6,7 @@ import concurrent.futures
 import json
 
 llm = ChatOpenAI(model="gpt-3.5-turbo")
-# llm = ChatOpenAI(model="ft:gpt-3.5-turbo-0613:bloomtech::9bFk26Dq")
+# llm = ChatOpenAI(model="ft:gpt-3.5-turbo-0613:bloomtech::9bFk26Dq") # already tuned model
 
 def generate_unit_test(function_code):
     prompt = ChatPromptTemplate(

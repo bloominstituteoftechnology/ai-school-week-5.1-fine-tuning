@@ -1,13 +1,22 @@
 # Import necessary modules
 import os
+import sys
 import json
 from openai import OpenAI
-from data import *
 
 # Initialize the OpenAI client with the API key from environment variables
 client = OpenAI(
   api_key=os.environ['OPENAI_API_KEY'],
 )
+
+# Get the root directory
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the root directory to the system path
+sys.path.append(root_dir)
+
+# Now you can import the variables from data.py
+from data import *
 
 # Define the names of the training and validation data files
 training_file_name = "training_data.jsonl"
@@ -44,7 +53,7 @@ print(f"Validation File ID: {validation_file_id}")
 response = client.fine_tuning.jobs.create(
   training_file=training_file_id.id, 
   validation_file=validation_file_id.id,
-  model="gpt-3.5-turbo", 
+  model="davinci-002", 
   hyperparameters={
     "n_epochs": 15,
     "batch_size": 3,

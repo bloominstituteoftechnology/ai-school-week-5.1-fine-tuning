@@ -7,9 +7,8 @@ import json
 
 llm = ChatOpenAI(model="gpt-4o")
 
-def generate_unit_test(prompt_tag, function_code):
+def generate_unit_test(function_code):
     prompt = ChatPromptTemplate(
-        tags=["unit_tests", prompt_tag],
         messages=[
             SystemMessage(content="You are an AI that generates unit tests for Python functions."),
             HumanMessage(content=f"Generate a unit test for this function: \n```python\n{function_code}\n```")
@@ -30,10 +29,10 @@ functions_to_test = [
     "def factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n - 1)"
 ]
 
-generate_synthetic_data = partial(generate_unit_test, prompt_tag="unit_test")
+generate_synthetic_data = partial(generate_unit_test)
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     synthetic_data = list(executor.map(generate_synthetic_data, functions_to_test))
 
 # Output the synthetic data
-print(json.dumps(synthetic_data, indent=4))
+print(synthetic_data)

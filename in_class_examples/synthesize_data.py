@@ -5,25 +5,16 @@ from functools import partial
 import concurrent.futures
 import json
 
-# llm = ChatOpenAI(model="gpt-3.5-turbo")
-llm = ChatOpenAI(model="ft:davinci-002:bloomtech::9bFEdWvD")
-
-# def generate_unit_test(function_code):
-#     prompt = ChatPromptTemplate(
-#         messages=[
-#             SystemMessage(content="You are an AI that generates unit tests for Python functions."),
-#             HumanMessage(content=f"Generate a unit test for this function: \n```python\n{function_code}\n```")
-#         ]
-#     )
-#     chain = prompt | llm
-#     response = chain.invoke({})
-#     return {
-#         "prompt": f"Generate a unit test for this function: \n```python\n{function_code}\n```",
-#         "completion": response.content  # Access the content attribute of AIMessage
-#     }
+llm = ChatOpenAI(model="gpt-3.5-turbo")
+# llm = ChatOpenAI(model="ft:gpt-3.5-turbo-0613:bloomtech::9bFk26Dq")
 
 def generate_unit_test(function_code):
-    prompt = PromptTemplate(input_variables=["function_code"], template=f"Generate a unit test for this function: \n```python\n{function_code}\n```")
+    prompt = ChatPromptTemplate(
+        messages=[
+            SystemMessage(content="You are an AI that generates unit tests for Python functions."),
+            HumanMessage(content=f"Generate a unit test for this function: \n```python\n{function_code}\n```")
+        ]
+    )
     chain = prompt | llm
     response = chain.invoke({})
     return {

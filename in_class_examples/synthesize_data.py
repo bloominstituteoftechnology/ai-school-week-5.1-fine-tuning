@@ -18,7 +18,7 @@ def generate_unit_test(function_code):
     response = chain.invoke({})
     return {
         "prompt": f"Generate a unit test for this function: \n```python\n{function_code}\n```",
-        "completion": response
+        "completion": response.content  # Access the content attribute of AIMessage
     }
 
 functions_to_test = [
@@ -35,4 +35,4 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     synthetic_data = list(executor.map(generate_synthetic_data, functions_to_test))
 
 # Output the synthetic data
-print(synthetic_data)
+print(json.dumps(synthetic_data, indent=4))

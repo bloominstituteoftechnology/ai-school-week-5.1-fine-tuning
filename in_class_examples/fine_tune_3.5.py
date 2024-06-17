@@ -53,7 +53,7 @@ print(f"Validation File ID: {validation_file_id}")
 response = client.fine_tuning.jobs.create(
   training_file=training_file_id.id, 
   validation_file=validation_file_id.id,
-  model="davinci-002", 
+  model="gpt-3.5-turbo-0613", 
   hyperparameters={
     "n_epochs": 15,
     "batch_size": 3,
